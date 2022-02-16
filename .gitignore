@@ -135,3 +135,9 @@ dmypy.json
 
 # MacOS
 .DS_Store
+
+# Eclipse
+.settings
+.classpath
+.project
+.gitignore
