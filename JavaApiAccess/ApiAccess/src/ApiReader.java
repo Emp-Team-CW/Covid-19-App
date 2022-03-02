@@ -14,22 +14,35 @@ public class ApiReader {
 
 	private final HttpClient client = HttpClient.newHttpClient();
 	
-	public String read(String url) throws IOException, InterruptedException {
-		return read(url, null);
+	public String read(String url, boolean compressed) throws IOException, InterruptedException {
+		return read(url, null, "application/json", compressed);
 	}
 	
-	public String read(String url, String filters) throws IOException, InterruptedException{
+	public String read(String url, String filters, boolean compressed) throws IOException, InterruptedException {
+		return read(url, filters, "application/json", compressed);
+	}
+	
+	public String read(String url, String filters, String header, boolean compressed) throws IOException, InterruptedException{
 		// https://mkyong.com/java/how-to-send-http-request-getpost-in-java/
 		HttpRequest request = HttpRequest.newBuilder()
 				.GET()
-				.header("accept", "application/json")
+				.header("accept", header)
 				.uri(URI.create(url
 						+ filters
 						))
 				.timeout(Duration.ofMinutes(2))
 				.build();
-		HttpResponse<byte[]> response = client.send(request, BodyHandlers.ofByteArray());
-		return decompress(response.body());
+		
+		String output; // to hold the output of the read
+		if(compressed) { // need to decompress	
+			HttpResponse<byte[]> response = client.send(request, BodyHandlers.ofByteArray());
+			output = decompress(response.body());
+		} else { // no decompression needed
+			HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+			output = response.body();
+		}
+		
+		return output;
 	}
 	
 	//https://gist.github.com/yfnick/227e0c12957a329ad138
