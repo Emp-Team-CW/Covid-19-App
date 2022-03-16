@@ -20,7 +20,10 @@ public class CovidAppController {
 		
 		System.out.println(controller.covidData[1].get("date"));
 		
-		controller.getVaccineDoses(9000000009l);
+		controller.updateVaccineStatus(9000000009l);
+		
+		System.out.println("Vaccinated: " + controller.vaccinated);
+		System.out.println("Doses taken: " + controller.dosesTaken);
 
 	}
 	
@@ -38,7 +41,6 @@ public class CovidAppController {
 			String api = apiReader.read("https://api.coronavirus.data.gov.uk/v1/data?",
 					"filters=areaType=nation;areaName=england"
 							+ "&structure=" + URLEncoder.encode("{\"date\":\"date\",\"name\":\"areaName\",\"dailyCases\":\"newCasesByPublishDate\",\"cumulativeCases\":\"cumCasesByPublishDate\", \"60DayDeath\":\"cumDeaths60DaysByPublishDate\" ,\"dailyDeaths\":\"newDeaths28DaysByPublishDate\",\"cumulativeDeaths\":\"cumDeaths28DaysByPublishDate\"}", "UTF-8")
-							//+ "&latestBy=newCasesByPublishDate"
 					, true);
 
 			// parse the api
@@ -60,7 +62,7 @@ public class CovidAppController {
 			}
 	}
 
-	private int getVaccineDoses(long nhsNumber) {
+	private void updateVaccineStatus(long nhsNumber) {
 		
 		try {
 			// read the api
@@ -75,12 +77,18 @@ public class CovidAppController {
 			// parse the api
 			JSONObject vaccineData = (JSONObject) new JSONParser().parse(api);
 
-			return Math.toIntExact((long) vaccineData.get("total"));
-
+			// find the highest dose number
+			for(int i = 0; i < Math.toIntExact((long) vaccineData.get("total")); i++) {
+				// navigates to the part of the api with dose number info
+				dosesTaken = Math.max(dosesTaken, Math.toIntExact((long) ((JSONObject) ((JSONArray) ((JSONObject) ((JSONObject) ((JSONArray) vaccineData.get("entry")).get(i)).get("resource")).get("protocolApplied")).get(0)).get("doseNumberPositiveInt")));
+			}
+			
+			if(dosesTaken > 0) {
+				vaccinated = true;
+			}
 			
 		} catch(IOException | InterruptedException | ParseException e) {
 			e.printStackTrace();
-			return -1;
 		}
 	}
 }
