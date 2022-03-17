@@ -1,19 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-package covidpassportapp;
+package gui;
+
+import javax.swing.JFrame;
 
 /**
  *
  * @author Chris
  */
-public class Login extends javax.swing.JFrame {
+public class Login extends javax.swing.JDialog {
 
     /**
      * Creates new form Login
      */
-    public Login() {
+    public Login(JFrame owner) {
+    	super(owner);
         initComponents();
     }
 

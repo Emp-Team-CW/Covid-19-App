@@ -2,21 +2,46 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package covidpassportapp;
+package gui;
+
+import java.awt.event.ActionListener;
 
 /**
  *
  * @author Chris
  */
 public class PassportGUI extends javax.swing.JFrame {
+	
+	private ActionListener controller;
 
     /**
      * Creates new form PassportGUI
      */
-    public PassportGUI() {
+    public PassportGUI(ActionListener actionListener) {
+    	/* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */    	
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(PassportGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(PassportGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(PassportGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(PassportGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         initComponents();
-        
-        
+        this.controller = actionListener;
+        setTitle("Covid-19 Data");
     }
     
     
@@ -29,16 +54,27 @@ public class PassportGUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
+        loginDialog = new javax.swing.JDialog();
+        titleLabel = new javax.swing.JLabel();
+        optionButtons = new javax.swing.JPanel();
+        loginBtn = new javax.swing.JButton();
+        cancelBtn = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        accountLabel = new javax.swing.JLabel();
+        login = new javax.swing.JTextField();
+        passwdLabel = new javax.swing.JLabel();
+        Password = new javax.swing.JTextField();
         TabbedPane = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        InfectionLabel = new javax.swing.JLabel();
-        DeathLabel = new javax.swing.JLabel();
-        RecoveredLabel = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        TRecoveredNum = new javax.swing.JLabel();
-        TInfectionsNum = new javax.swing.JLabel();
-        TDeathsNum = new javax.swing.JLabel();
+        totalInfectedLabel = new javax.swing.JLabel();
+        totalDeathsLabel = new javax.swing.JLabel();
+        totalRecoveredLabel = new javax.swing.JLabel();
+        natStatsLabel = new javax.swing.JLabel();
+        totalRecoveredOutput = new javax.swing.JLabel();
+        totalInfectedOutput = new javax.swing.JLabel();
+        totalDeathsOutput = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
@@ -53,6 +89,67 @@ public class PassportGUI extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
+        loginDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        loginDialog.setTitle("Login");
+        loginDialog.setBounds(new java.awt.Rectangle(0, 25, 350, 225));
+        loginDialog.setModal(true);
+
+        titleLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titleLabel.setText("Login to view Vacination Information");
+        titleLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        loginDialog.getContentPane().add(titleLabel, java.awt.BorderLayout.NORTH);
+
+        loginBtn.setText("Login");
+        loginBtn.addActionListener(controller);
+        optionButtons.add(loginBtn);
+
+        cancelBtn.setText("Cancel");
+        cancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelBtnActionPerformed(evt);
+            }
+        });
+        optionButtons.add(cancelBtn);
+
+        loginDialog.getContentPane().add(optionButtons, java.awt.BorderLayout.SOUTH);
+
+        java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
+        jPanel4Layout.columnWidths = new int[] {100, 200};
+        jPanel4.setLayout(jPanel4Layout);
+
+        accountLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        accountLabel.setText("NHS Number");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel4.add(accountLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel4.add(login, gridBagConstraints);
+
+        passwdLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        passwdLabel.setText("Password");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel4.add(passwdLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel4.add(Password, gridBagConstraints);
+
+        loginDialog.getContentPane().add(jPanel4, java.awt.BorderLayout.CENTER);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         TabbedPane.setBackground(java.awt.Color.white);
@@ -60,19 +157,14 @@ public class PassportGUI extends javax.swing.JFrame {
 
         jPanel1.setBackground(java.awt.Color.white);
 
-        InfectionLabel.setText("Total Infections");
+        totalInfectedLabel.setText("Total Infections: ");
 
-        DeathLabel.setText("Total Deaths");
+        totalDeathsLabel.setText("Total Deaths: ");
 
-        RecoveredLabel.setText("Total Recovered");
+        totalRecoveredLabel.setText("Total Recovered: ");
 
-        jLabel8.setText("National Statistics");
+        natStatsLabel.setText("National Statistics");
 
-        TRecoveredNum.setText(":                    ");
-
-        TInfectionsNum.setText(":                    ");
-
-        TDeathsNum.setText(":                    ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -80,40 +172,40 @@ public class PassportGUI extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(73, 73, 73)
-                .addComponent(RecoveredLabel)
+                .addComponent(totalRecoveredLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TRecoveredNum)
+                .addComponent(totalRecoveredOutput)
                 .addGap(88, 88, 88)
-                .addComponent(InfectionLabel)
+                .addComponent(totalInfectedLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(TInfectionsNum)
+                .addComponent(totalInfectedOutput)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
-                .addComponent(DeathLabel)
+                .addComponent(totalDeathsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TDeathsNum)
+                .addComponent(totalDeathsOutput)
                 .addGap(76, 76, 76))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
-                .addComponent(jLabel8)
+                .addComponent(natStatsLabel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(natStatsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(162, 162, 162)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(InfectionLabel)
-                    .addComponent(DeathLabel)
-                    .addComponent(RecoveredLabel)
-                    .addComponent(TRecoveredNum)
-                    .addComponent(TInfectionsNum)
-                    .addComponent(TDeathsNum))
+                    .addComponent(totalInfectedLabel)
+                    .addComponent(totalDeathsLabel)
+                    .addComponent(totalRecoveredLabel)
+                    .addComponent(totalRecoveredOutput)
+                    .addComponent(totalInfectedOutput)
+                    .addComponent(totalDeathsOutput))
                 .addGap(0, 172, Short.MAX_VALUE))
         );
 
-        TRecoveredNum.getAccessibleContext().setAccessibleName("TotalRecovered_Number");
+        totalRecoveredOutput.getAccessibleContext().setAccessibleName("TotalRecovered_Number");
 
         TabbedPane.addTab("National Statistics", jPanel1);
 
@@ -274,57 +366,33 @@ public class PassportGUI extends javax.swing.JFrame {
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
         // TODO add your handling code here:
-        Login login = new Login();
-        login.setVisible(true);
+        loginDialog.setVisible(true);
     }//GEN-LAST:event_LoginButtonActionPerformed
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PassportGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PassportGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PassportGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PassportGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                PassportGUI gui = new PassportGUI();
-                gui.setVisible(true);
-                
-                
-            }
-        });
+    
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        // TODO add your handling code here:
+        loginDialog.dispose();
+    }//GEN-LAST:event_cancelBtnActionPerformed
+    
+    public void setNationalStatisticsLabels(long totalInfected, long totalDeaths) {
+    	totalInfectedOutput.setText(String.valueOf(totalInfected));
+    	totalDeathsOutput.setText(String.valueOf(totalDeaths));
+    	totalRecoveredOutput.setText(String.valueOf(totalInfected - totalDeaths));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel DeathLabel;
-    private javax.swing.JLabel InfectionLabel;
+    private javax.swing.JLabel totalDeathsLabel;
+    private javax.swing.JLabel totalInfectedLabel;
     private javax.swing.JButton LoginButton;
-    private javax.swing.JLabel RecoveredLabel;
-    private javax.swing.JLabel TDeathsNum;
-    private javax.swing.JLabel TInfectionsNum;
-    private javax.swing.JLabel TRecoveredNum;
+    private javax.swing.JTextField Password;
+    private javax.swing.JLabel totalRecoveredLabel;
+    private javax.swing.JLabel totalDeathsOutput;
+    private javax.swing.JLabel totalInfectedOutput;
+    private javax.swing.JLabel totalRecoveredOutput;
     private javax.swing.JTabbedPane TabbedPane;
+    private javax.swing.JLabel accountLabel;
+    private javax.swing.JButton cancelBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -333,11 +401,18 @@ public class PassportGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel natStatsLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTextField login;
+    private javax.swing.JButton loginBtn;
+    private javax.swing.JDialog loginDialog;
+    private javax.swing.JPanel optionButtons;
+    private javax.swing.JLabel passwdLabel;
+    private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }

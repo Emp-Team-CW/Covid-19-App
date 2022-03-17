@@ -1,3 +1,5 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Iterator;
@@ -7,23 +9,25 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class CovidAppController {
+import api.ApiReader;
+import gui.PassportGUI;
+
+public class CovidAppController implements ActionListener {
 
 	private final ApiReader apiReader = new ApiReader();
 	private JSONObject[] covidData;
 	private boolean vaccinated = false;
 	private int dosesTaken = 0;
+	
+	private PassportGUI gui;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, InterruptedException, ParseException {
 
 		CovidAppController controller = new CovidAppController();
-		
-		System.out.println(controller.covidData[1].get("date"));
-		
-		controller.updateVaccineStatus(9000000009l);
-		
-		System.out.println("Vaccinated: " + controller.vaccinated);
-		System.out.println("Doses taken: " + controller.dosesTaken);
+		controller.gui = new PassportGUI(controller);
+		controller.updateCovidData();
+		controller.gui.setNationalStatisticsLabels((long)controller.covidData[0].get("cumCases"), (long)controller.covidData[0].get("cumDeaths"));
+		controller.gui.setVisible(true);
 
 	}
 	
@@ -39,8 +43,8 @@ public class CovidAppController {
 
 			// read the api
 			String api = apiReader.read("https://api.coronavirus.data.gov.uk/v1/data?",
-					"filters=areaType=nation;areaName=england"
-							+ "&structure=" + URLEncoder.encode("{\"date\":\"date\",\"name\":\"areaName\",\"dailyCases\":\"newCasesByPublishDate\",\"cumulativeCases\":\"cumCasesByPublishDate\", \"60DayDeath\":\"cumDeaths60DaysByPublishDate\" ,\"dailyDeaths\":\"newDeaths28DaysByPublishDate\",\"cumulativeDeaths\":\"cumDeaths28DaysByPublishDate\"}", "UTF-8")
+					"filters=areaType=overview"
+							+ "&structure=" + URLEncoder.encode("{\"date\":\"date\",\"name\":\"areaName\",\"dailyCases\":\"newCasesByPublishDate\",\"cumCases\":\"cumCasesByPublishDate\",\"dailyDeaths\":\"newDeaths28DaysByPublishDate\",\"cumDeaths\":\"cumDeaths28DaysByPublishDate\"}", "UTF-8")
 					, true);
 
 			// parse the api
@@ -90,5 +94,15 @@ public class CovidAppController {
 		} catch(IOException | InterruptedException | ParseException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		switch(e.getActionCommand()) {
+		case "Login":
+			
+			break;
+		}
+		
 	}
 }
