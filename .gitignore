@@ -141,3 +141,4 @@ dmypy.json
 .classpath
 .project
 .gitignore
+/JavaApiAccess/ApiAccess/nbproject/private/
