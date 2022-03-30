@@ -2,6 +2,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -10,12 +12,14 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import api.ApiReader;
+import api.Hotspot;
 import gui.PassportGUI;
 
 public class CovidAppController implements ActionListener {
 
 	private final ApiReader apiReader = new ApiReader();
 	private JSONObject[] covidData;
+	private EnumMap<Hotspot, JSONObject> hotspotData = new EnumMap<Hotspot, JSONObject>(Hotspot.class);
 	private boolean vaccinated = false;
 	private int dosesTaken = 0;
 	
@@ -26,6 +30,8 @@ public class CovidAppController implements ActionListener {
 		CovidAppController controller = new CovidAppController();
 		controller.gui = new PassportGUI(controller);
 		controller.updateCovidData();
+		controller.updateHotspotData();
+	
 		controller.gui.setNationalStatisticsLabels((long)controller.covidData[0].get("cumCases"), (long)controller.covidData[0].get("cumDeaths"));
 		controller.gui.setVisible(true);
 
@@ -64,6 +70,35 @@ public class CovidAppController implements ActionListener {
 				// add to the overall data array and increase the counter
 				covidData[counter++] = (JSONObject) iterator.next();			
 			}
+	}
+	
+	private void updateHotspotData() throws IOException, InterruptedException, ParseException {
+
+		for(Hotspot hotspot: Hotspot.values()) { // https://www.baeldung.com/java-enum-iteration
+			// read the api
+			String areaType = hotspot == Hotspot.LONDON ? "region" : "utla";
+			String api = apiReader.read("https://api.coronavirus.data.gov.uk/v1/data?",
+					"filters=areaType=" + areaType + ";areaCode=" + hotspot.areaCode()
+							+ "&structure=" + URLEncoder.encode("{\"curCases\":\"newCasesByPublishDate\",\"totalCases\":\"cumCasesByPublishDate\",\"totalDeaths\":\"cumDeaths28DaysByPublishDate\",\"totalVaccinations\":\"cumVaccinesGivenByPublishDate\"}", "UTF-8")
+							+ "&latestBy=newCasesByPublishDate"
+							, true);
+
+			// parse the api and isolate the data
+			// reference - https://www.geeksforgeeks.org/parse-json-java/
+			JSONObject covidJson = (JSONObject) ((JSONArray) ((JSONObject) new JSONParser().parse(api)).get("data")).get(0);
+			
+			for(Object key: covidJson.keySet()) {
+				if(covidJson.get(key) == null) {
+					covidJson.replace(key, 0l);
+				}
+			}
+			
+			// update hotspot data
+			hotspotData.put(hotspot, covidJson);
+			
+			gui.addHotspotRow(hotspot.toString(), (long) hotspotData.get(hotspot).get("curCases"), (long) hotspotData.get(hotspot).get("totalCases"), (long) hotspotData.get(hotspot).get("totalDeaths"), (long) hotspotData.get(hotspot).get("totalCases") - (long) hotspotData.get(hotspot).get("totalDeaths"), (long) hotspotData.get(hotspot).get("totalVaccinations"));
+			
+		}
 	}
 
 	private void updateVaccineStatus(long nhsNumber) {

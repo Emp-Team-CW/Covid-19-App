@@ -5,6 +5,7 @@
 package gui;
 
 import java.awt.event.ActionListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -43,8 +44,15 @@ public class PassportGUI extends javax.swing.JFrame {
         this.controller = actionListener;
         setTitle("Covid-19 Data");
     }
-    
-    
+
+    public void addHotspotRow(String place, long curCases, long totalCases, long totalDeaths, long totalRecovered,long totalVaccinations){
+
+        Object[] row = {place,curCases,totalCases,totalDeaths,totalRecovered,totalVaccinations};
+
+        DefaultTableModel model = (DefaultTableModel) hotspotTable.getModel();
+
+        model.addRow(row);
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -86,7 +94,7 @@ public class PassportGUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        hotspotTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
         loginDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -297,8 +305,8 @@ public class PassportGUI extends javax.swing.JFrame {
 
         TabbedPane.addTab("Vaccination Status", jPanel3);
 
-        jTable2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        hotspotTable.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        hotspotTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"Manchester", null, null, null, null, null, null},
                 {"Liverpool", null, null, null, null, null, null},
@@ -318,7 +326,7 @@ public class PassportGUI extends javax.swing.JFrame {
                 "Place", "Current Cases", "Total Cases", "Total Deaths", "Total Recovered", "Density", "Total Vaccinations"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(hotspotTable);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Hotspot Information");
@@ -394,6 +402,7 @@ public class PassportGUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane TabbedPane;
     private javax.swing.JLabel accountLabel;
     private javax.swing.JButton cancelBtn;
+    private javax.swing.JTable hotspotTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -408,7 +417,6 @@ public class PassportGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField login;
     private javax.swing.JButton loginBtn;
     private javax.swing.JDialog loginDialog;
