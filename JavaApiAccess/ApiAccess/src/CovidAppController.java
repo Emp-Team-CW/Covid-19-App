@@ -2,7 +2,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Iterator;
 
@@ -19,7 +18,7 @@ public class CovidAppController implements ActionListener {
 
 	private final ApiReader apiReader = new ApiReader();
 	private JSONObject[] covidData;
-	private EnumMap<Hotspot, JSONObject> hotspotData = new EnumMap<Hotspot, JSONObject>(Hotspot.class);
+	private EnumMap<Hotspot, JSONObject> hotspotData = new EnumMap(Hotspot.class);
 	private boolean vaccinated = false;
 	private int dosesTaken = 0;
 	
@@ -133,10 +132,26 @@ public class CovidAppController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+                System.out.println("click");
+
 		switch(e.getActionCommand()) {
 		case "Login":
-			
-			break;
+                    // reset login error messages
+                    gui.hideInvalidLoginLabel();
+                    gui.hideInvalidPasswordLabel();
+                    
+                    if(gui.getEnteredLoginNumber().compareTo("9000000009") != 0) {
+                        // invalid login
+                        gui.displayInvalidLoginLabel();
+                    } else if(gui.getEnteredLoginPassword().compareTo("test123!") != 0) {
+                        // invalid password
+                        gui.displayInvalidPasswordLabel();
+                    } else {
+                        // valid login and password
+                        gui.closeLoginDialog();
+                        updateVaccineStatus(9000000009l);
+                    }
+                    break;
 		}
 		
 	}
