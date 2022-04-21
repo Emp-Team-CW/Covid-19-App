@@ -2,6 +2,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.EnumMap;
 import java.util.Iterator;
 
@@ -21,7 +22,8 @@ public class CovidAppController implements ActionListener {
 	private EnumMap<Hotspot, JSONObject> hotspotData = new EnumMap(Hotspot.class);
 	private boolean vaccinated = false;
 	private int dosesTaken = 0;
-	
+	private Date mostRecentVaccination;
+
 	private PassportGUI gui;
 
 	public static void main(String[] args) throws IOException, InterruptedException, ParseException {
@@ -30,12 +32,12 @@ public class CovidAppController implements ActionListener {
 		controller.gui = new PassportGUI(controller);
 		controller.updateCovidData();
 		controller.updateHotspotData();
-	
+
 		controller.gui.setNationalStatisticsLabels((long)controller.covidData[0].get("cumCases"), (long)controller.covidData[0].get("cumDeaths"));
 		controller.gui.setVisible(true);
 
 	}
-	
+
 	public CovidAppController() {
 		try {
 			updateCovidData();
@@ -46,31 +48,31 @@ public class CovidAppController implements ActionListener {
 
 	public void updateCovidData() throws IOException, InterruptedException, ParseException {
 
-			// read the api
-			String api = apiReader.read("https://api.coronavirus.data.gov.uk/v1/data?",
-					"filters=areaType=overview"
-							+ "&structure=" + URLEncoder.encode("{\"date\":\"date\",\"name\":\"areaName\",\"dailyCases\":\"newCasesByPublishDate\",\"cumCases\":\"cumCasesByPublishDate\",\"dailyDeaths\":\"newDeaths28DaysByPublishDate\",\"cumDeaths\":\"cumDeaths28DaysByPublishDate\"}", "UTF-8")
-					, true);
+		// read the api
+		String api = apiReader.read("https://api.coronavirus.data.gov.uk/v1/data?",
+				"filters=areaType=overview"
+						+ "&structure=" + URLEncoder.encode("{\"date\":\"date\",\"name\":\"areaName\",\"dailyCases\":\"newCasesByPublishDate\",\"cumCases\":\"cumCasesByPublishDate\",\"dailyDeaths\":\"newDeaths28DaysByPublishDate\",\"cumDeaths\":\"cumDeaths28DaysByPublishDate\"}", "UTF-8")
+						, true);
 
-			// parse the api
-			// reference - https://www.geeksforgeeks.org/parse-json-java/
-			JSONObject covidJson = (JSONObject) new JSONParser().parse(api);
+		// parse the api
+		// reference - https://www.geeksforgeeks.org/parse-json-java/
+		JSONObject covidJson = (JSONObject) new JSONParser().parse(api);
 
-			// isolating the data
-			covidData = new JSONObject[Math.toIntExact((long) covidJson.get("length"))]; // to hold the final data
-			JSONArray dataJsonArray = (JSONArray) covidJson.get("data"); // the data in array form
+		// isolating the data
+		covidData = new JSONObject[Math.toIntExact((long) covidJson.get("length"))]; // to hold the final data
+		JSONArray dataJsonArray = (JSONArray) covidJson.get("data"); // the data in array form
 
-			// iterate data array
-			Iterator<?> iterator = dataJsonArray.iterator();
-			int counter = 0; // hold the array position
+		// iterate data array
+		Iterator<?> iterator = dataJsonArray.iterator();
+		int counter = 0; // hold the array position
 
-			while (iterator.hasNext()) // for every data entry (each days record)
-			{
-				// add to the overall data array and increase the counter
-				covidData[counter++] = (JSONObject) iterator.next();			
-			}
+		while (iterator.hasNext()) // for every data entry (each days record)
+		{
+			// add to the overall data array and increase the counter
+			covidData[counter++] = (JSONObject) iterator.next();			
+		}
 	}
-	
+
 	private void updateHotspotData() throws IOException, InterruptedException, ParseException {
 
 		for(Hotspot hotspot: Hotspot.values()) { // https://www.baeldung.com/java-enum-iteration
@@ -78,30 +80,31 @@ public class CovidAppController implements ActionListener {
 			String areaType = hotspot == Hotspot.LONDON ? "region" : "utla";
 			String api = apiReader.read("https://api.coronavirus.data.gov.uk/v1/data?",
 					"filters=areaType=" + areaType + ";areaCode=" + hotspot.areaCode()
-							+ "&structure=" + URLEncoder.encode("{\"curCases\":\"newCasesByPublishDate\",\"totalCases\":\"cumCasesByPublishDate\",\"totalDeaths\":\"cumDeaths28DaysByPublishDate\",\"totalVaccinations\":\"cumVaccinesGivenByPublishDate\"}", "UTF-8")
-							+ "&latestBy=newCasesByPublishDate"
-							, true);
+					+ "&structure=" + URLEncoder.encode("{\"curCases\":\"newCasesByPublishDate\",\"totalCases\":\"cumCasesByPublishDate\",\"totalDeaths\":\"cumDeaths28DaysByPublishDate\",\"totalVaccinations\":\"cumVaccinesGivenByPublishDate\"}", "UTF-8")
+					+ "&latestBy=newCasesByPublishDate"
+					, true);
 
 			// parse the api and isolate the data
 			// reference - https://www.geeksforgeeks.org/parse-json-java/
 			JSONObject covidJson = (JSONObject) ((JSONArray) ((JSONObject) new JSONParser().parse(api)).get("data")).get(0);
-			
+
 			for(Object key: covidJson.keySet()) {
 				if(covidJson.get(key) == null) {
 					covidJson.replace(key, 0l);
 				}
 			}
-			
+
 			// update hotspot data
 			hotspotData.put(hotspot, covidJson);
-			
+
 			gui.addHotspotRow(hotspot.toString(), (long) hotspotData.get(hotspot).get("curCases"), (long) hotspotData.get(hotspot).get("totalCases"), (long) hotspotData.get(hotspot).get("totalDeaths"), (long) hotspotData.get(hotspot).get("totalCases") - (long) hotspotData.get(hotspot).get("totalDeaths"), (long) hotspotData.get(hotspot).get("totalVaccinations"));
-			
+
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void updateVaccineStatus(long nhsNumber) {
-		
+
 		try {
 			// read the api
 			String api = apiReader.read("https://sandbox.api.service.nhs.uk/immunisation-history/FHIR/R4/Immunization?patient.identifier=https%3A%2F%2Ffhir.nhs.uk%2FId%2F"
@@ -119,12 +122,21 @@ public class CovidAppController implements ActionListener {
 			for(int i = 0; i < Math.toIntExact((long) vaccineData.get("total")); i++) {
 				// navigates to the part of the api with dose number info
 				dosesTaken = Math.max(dosesTaken, Math.toIntExact((long) ((JSONObject) ((JSONArray) ((JSONObject) ((JSONObject) ((JSONArray) vaccineData.get("entry")).get(i)).get("resource")).get("protocolApplied")).get(0)).get("doseNumberPositiveInt")));
+				String dateString = (String) ((JSONObject) ((JSONObject) ((JSONArray) vaccineData.get("entry")).get(i)).get("resource")).get("occurrenceDateTime");
+				Date date = new Date(Integer.parseInt(dateString.substring(0, 4)), Integer.parseInt(dateString.substring(5, 7)) - 1, Integer.parseInt(dateString.substring(8,10)));
+				if(mostRecentVaccination == null || date.compareTo(mostRecentVaccination) > 0) {
+					mostRecentVaccination = date;
+				}
 			}
-			
+
 			if(dosesTaken > 0) {
 				vaccinated = true;
+				gui.showVaccineDate(mostRecentVaccination.getDate() + "/" + (mostRecentVaccination.getMonth() + 1) + "/" + mostRecentVaccination.getYear());
+				gui.showDoses(dosesTaken);
 			}
-			
+
+			gui.showVaccinated(vaccinated);
+
 		} catch(IOException | InterruptedException | ParseException e) {
 			e.printStackTrace();
 		}
@@ -132,27 +144,27 @@ public class CovidAppController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-                System.out.println("click");
+		System.out.println("click");
 
 		switch(e.getActionCommand()) {
 		case "Login":
-                    // reset login error messages
-                    gui.hideInvalidLoginLabel();
-                    gui.hideInvalidPasswordLabel();
-                    
-                    if(gui.getEnteredLoginNumber().compareTo("9000000009") != 0) {
-                        // invalid login
-                        gui.displayInvalidLoginLabel();
-                    } else if(gui.getEnteredLoginPassword().compareTo("test123!") != 0) {
-                        // invalid password
-                        gui.displayInvalidPasswordLabel();
-                    } else {
-                        // valid login and password
-                        gui.closeLoginDialog();
-                        updateVaccineStatus(9000000009l);
-                    }
-                    break;
+			// reset login error messages
+			gui.hideInvalidLoginLabel();
+			gui.hideInvalidPasswordLabel();
+
+			if(gui.getEnteredLoginNumber().compareTo("9000000009") != 0) {
+				// invalid login
+				gui.displayInvalidLoginLabel();
+			} else if(gui.getEnteredLoginPassword().compareTo("test123!") != 0) {
+				// invalid password
+				gui.displayInvalidPasswordLabel();
+			} else {
+				// valid login and password
+				gui.closeLoginDialog();
+				updateVaccineStatus(9000000009l);
+			}
+			break;
 		}
-		
+
 	}
 }

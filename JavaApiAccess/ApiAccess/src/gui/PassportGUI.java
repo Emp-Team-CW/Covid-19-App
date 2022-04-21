@@ -88,14 +88,14 @@ public class PassportGUI extends javax.swing.JFrame {
         totalInfectedOutput = new javax.swing.JLabel();
         totalDeathsOutput = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
+        vaccineTitleLabel = new javax.swing.JLabel();
         LoginButton = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        vaccinatedLabel = new javax.swing.JLabel();
+        vaccinatedOutput = new javax.swing.JLabel();
+        vaccineDateLabel = new javax.swing.JLabel();
+        vaccineDateOutput = new javax.swing.JLabel();
+        dosesLabel = new javax.swing.JLabel();
+        dosesOutput = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         hotspotTable = new javax.swing.JTable();
@@ -247,18 +247,15 @@ public class PassportGUI extends javax.swing.JFrame {
         TabbedPane.addTab("National Statistics", jPanel1);
 
         jPanel3.setBackground(java.awt.Color.white);
+        jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel16.setText("Booster:");
-
-        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel17.setText("Vaccination Status");
-
-        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel18.setText("First Dose:");
-
-        jLabel19.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel19.setText("Second Dose:");
+        vaccineTitleLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        vaccineTitleLabel.setText("Vaccination Status");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 50, 50);
+        jPanel3.add(vaccineTitleLabel, gridBagConstraints);
 
         LoginButton.setBackground(java.awt.Color.cyan);
         LoginButton.setText("Login");
@@ -267,66 +264,55 @@ public class PassportGUI extends javax.swing.JFrame {
                 LoginButtonActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 27;
+        gridBagConstraints.insets = new java.awt.Insets(40, 10, 10, 10);
+        jPanel3.add(LoginButton, gridBagConstraints);
 
-        jLabel2.setText("jLabel2");
+        vaccinatedLabel.setText("Vaccinated:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel3.add(vaccinatedLabel, gridBagConstraints);
 
-        jLabel3.setText("jLabel3");
+        vaccinatedOutput.setText("---");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
+        jPanel3.add(vaccinatedOutput, gridBagConstraints);
 
-        jLabel4.setText("jLabel4");
+        vaccineDateLabel.setText("Date of most recent vaccination:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel3.add(vaccineDateLabel, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(253, 253, 253)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4))
-                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 381, Short.MAX_VALUE)
-                .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(191, 191, 191)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(467, Short.MAX_VALUE)))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(LoginButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(37, 37, 37))
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(53, 53, 53)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(247, Short.MAX_VALUE)))
-        );
+        vaccineDateOutput.setText("---");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
+        jPanel3.add(vaccineDateOutput, gridBagConstraints);
+
+        dosesLabel.setText("Doses taken:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel3.add(dosesLabel, gridBagConstraints);
+
+        dosesOutput.setText("---");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
+        jPanel3.add(dosesOutput, gridBagConstraints);
 
         TabbedPane.addTab("Vaccination Status", jPanel3);
 
@@ -441,6 +427,22 @@ public class PassportGUI extends javax.swing.JFrame {
     public void closeLoginDialog() {
         loginDialog.dispose();
     }
+    
+    public void showVaccinated(boolean vaccinated) {
+        if(vaccinated) {
+            vaccinatedOutput.setText("Yes");
+        } else {
+            vaccinatedOutput.setText("No");
+        }
+    }
+    
+    public void showVaccineDate(String date) {
+        vaccineDateOutput.setText(date);
+    }
+    
+    public void showDoses(int doses) {
+        dosesOutput.setText(String.valueOf(doses));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel DeathLabel;
@@ -450,17 +452,12 @@ public class PassportGUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane TabbedPane;
     private javax.swing.JLabel accountLabel;
     private javax.swing.JButton cancelBtn;
+    private javax.swing.JLabel dosesLabel;
+    private javax.swing.JLabel dosesOutput;
     private javax.swing.JTable hotspotTable;
     private javax.swing.JLabel invalidLoginLabel;
     private javax.swing.JLabel invalidPasswordLabel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -477,5 +474,10 @@ public class PassportGUI extends javax.swing.JFrame {
     private javax.swing.JLabel totalDeathsOutput;
     private javax.swing.JLabel totalInfectedOutput;
     private javax.swing.JLabel totalRecoveredOutput;
+    private javax.swing.JLabel vaccinatedLabel;
+    private javax.swing.JLabel vaccinatedOutput;
+    private javax.swing.JLabel vaccineDateLabel;
+    private javax.swing.JLabel vaccineDateOutput;
+    private javax.swing.JLabel vaccineTitleLabel;
     // End of variables declaration//GEN-END:variables
 }
