@@ -45,6 +45,7 @@ public class PassportGUI extends javax.swing.JFrame {
         hideInvalidLoginLabel();
         hideInvalidPasswordLabel();
         setTitle("Covid-19 Data");
+        setLocationRelativeTo(null);
     }
 
     public void addHotspotRow(String place, long curCases, long totalCases, long totalDeaths, long totalRecovered,long totalVaccinations){
@@ -67,7 +68,9 @@ public class PassportGUI extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         loginDialog = new javax.swing.JDialog();
+        jPanel5 = new javax.swing.JPanel();
         titleLabel = new javax.swing.JLabel();
+        titleLabel1 = new javax.swing.JLabel();
         optionButtons = new javax.swing.JPanel();
         loginBtn = new javax.swing.JButton();
         cancelBtn = new javax.swing.JButton();
@@ -79,44 +82,71 @@ public class PassportGUI extends javax.swing.JFrame {
         invalidLoginLabel = new javax.swing.JLabel();
         invalidPasswordLabel = new javax.swing.JLabel();
         TabbedPane = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        nationalStatsPanel = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
         InfectionLabel = new javax.swing.JLabel();
         DeathLabel = new javax.swing.JLabel();
         RecoveredLabel = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         totalRecoveredOutput = new javax.swing.JLabel();
         totalInfectedOutput = new javax.swing.JLabel();
         totalDeathsOutput = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        recoveredGraph = new javax.swing.JPanel();
+        infectionGraph = new javax.swing.JPanel();
+        deathGraph = new javax.swing.JPanel();
+        statsTitleLabel = new javax.swing.JLabel();
+        vaccinePanel = new javax.swing.JPanel();
         vaccineTitleLabel = new javax.swing.JLabel();
         LoginButton = new javax.swing.JButton();
+        vaccineDisplayPanel = new javax.swing.JPanel();
         vaccinatedLabel = new javax.swing.JLabel();
         vaccinatedOutput = new javax.swing.JLabel();
         vaccineDateLabel = new javax.swing.JLabel();
         vaccineDateOutput = new javax.swing.JLabel();
         dosesLabel = new javax.swing.JLabel();
         dosesOutput = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        hotspotPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         hotspotTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
         loginDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         loginDialog.setTitle("Login");
+        loginDialog.setBackground(new java.awt.Color(64, 64, 64));
         loginDialog.setBounds(new java.awt.Rectangle(0, 25, 350, 225));
+        setLocationRelativeTo(null);
         loginDialog.setModal(true);
         loginDialog.setResizable(false);
 
-        titleLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        titleLabel.setText("Login to view Vacination Information");
-        titleLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        loginDialog.getContentPane().add(titleLabel, java.awt.BorderLayout.NORTH);
+        jPanel5.setBackground(new java.awt.Color(64, 64, 64));
+        jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jPanel5.setLayout(new java.awt.GridLayout(2, 0));
 
+        titleLabel.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        titleLabel.setForeground(new java.awt.Color(212, 212, 212));
+        titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titleLabel.setText("Login to view");
+        titleLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel5.add(titleLabel);
+
+        titleLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        titleLabel1.setForeground(new java.awt.Color(212, 212, 212));
+        titleLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titleLabel1.setText("Vacination Information");
+        titleLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel5.add(titleLabel1);
+
+        loginDialog.getContentPane().add(jPanel5, java.awt.BorderLayout.NORTH);
+
+        optionButtons.setBackground(new java.awt.Color(64, 64, 64));
+
+        loginBtn.setBackground(new java.awt.Color(0, 102, 204));
+        loginBtn.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        loginBtn.setForeground(new java.awt.Color(255, 255, 255));
         loginBtn.setText("Login");
         loginBtn.addActionListener(controller);
         optionButtons.add(loginBtn);
 
+        cancelBtn.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         cancelBtn.setText("Cancel");
         cancelBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,18 +157,25 @@ public class PassportGUI extends javax.swing.JFrame {
 
         loginDialog.getContentPane().add(optionButtons, java.awt.BorderLayout.SOUTH);
 
+        jPanel4.setBackground(new java.awt.Color(64, 64, 64));
+        jPanel4.setForeground(new java.awt.Color(64, 64, 64));
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
         jPanel4Layout.columnWidths = new int[] {100, 200};
         jPanel4.setLayout(jPanel4Layout);
 
+        accountLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        accountLabel.setForeground(new java.awt.Color(212, 212, 212));
         accountLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        accountLabel.setText("NHS Number");
+        accountLabel.setText("NHS Number:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel4.add(accountLabel, gridBagConstraints);
+
+        loginField.setBackground(new java.awt.Color(69, 73, 75));
+        loginField.setForeground(new java.awt.Color(212, 212, 212));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -146,14 +183,19 @@ public class PassportGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel4.add(loginField, gridBagConstraints);
 
+        passwdLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        passwdLabel.setForeground(new java.awt.Color(212, 212, 212));
         passwdLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        passwdLabel.setText("Password");
+        passwdLabel.setText("Password:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel4.add(passwdLabel, gridBagConstraints);
+
+        passwordField.setBackground(new java.awt.Color(69, 73, 75));
+        passwordField.setForeground(new java.awt.Color(212, 212, 212));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -182,140 +224,177 @@ public class PassportGUI extends javax.swing.JFrame {
         loginDialog.getContentPane().add(jPanel4, java.awt.BorderLayout.CENTER);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(64, 64, 64));
         setResizable(false);
 
-        TabbedPane.setBackground(java.awt.Color.white);
+        TabbedPane.setBackground(java.awt.Color.darkGray);
         TabbedPane.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+        TabbedPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jPanel1.setBackground(java.awt.Color.white);
+        nationalStatsPanel.setBackground(java.awt.Color.darkGray);
+        nationalStatsPanel.setForeground(new java.awt.Color(187, 187, 190));
+        nationalStatsPanel.setLayout(new java.awt.BorderLayout());
 
-        InfectionLabel.setText("Total Infections");
+        jPanel6.setBackground(new java.awt.Color(64, 64, 64));
+        jPanel6.setLayout(new java.awt.GridBagLayout());
 
+        InfectionLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
+        InfectionLabel.setForeground(new java.awt.Color(212, 212, 212));
+        InfectionLabel.setText("Total Infections:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(162, 88, 169, 0);
+        jPanel6.add(InfectionLabel, gridBagConstraints);
+
+        DeathLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
+        DeathLabel.setForeground(new java.awt.Color(212, 212, 212));
         DeathLabel.setText("Total Deaths");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(162, 55, 169, 0);
+        jPanel6.add(DeathLabel, gridBagConstraints);
 
-        RecoveredLabel.setText("Total Recovered");
+        RecoveredLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
+        RecoveredLabel.setForeground(new java.awt.Color(212, 212, 212));
+        RecoveredLabel.setText("Total Recovered:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(162, 73, 169, 0);
+        jPanel6.add(RecoveredLabel, gridBagConstraints);
 
-        jLabel8.setText("National Statistics");
-
-        totalRecoveredOutput.setText(":                    ");
-
-        totalInfectedOutput.setText(":                    ");
-
-        totalDeathsOutput.setText(":                    ");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addComponent(RecoveredLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(totalRecoveredOutput)
-                .addGap(88, 88, 88)
-                .addComponent(InfectionLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(totalInfectedOutput)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
-                .addComponent(DeathLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(totalDeathsOutput)
-                .addGap(76, 76, 76))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(jLabel8)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(162, 162, 162)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(InfectionLabel)
-                    .addComponent(DeathLabel)
-                    .addComponent(RecoveredLabel)
-                    .addComponent(totalRecoveredOutput)
-                    .addComponent(totalInfectedOutput)
-                    .addComponent(totalDeathsOutput))
-                .addGap(0, 174, Short.MAX_VALUE))
-        );
-
+        totalRecoveredOutput.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        totalRecoveredOutput.setForeground(new java.awt.Color(212, 212, 212));
+        totalRecoveredOutput.setText("---");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(162, 6, 169, 0);
+        jPanel6.add(totalRecoveredOutput, gridBagConstraints);
         totalRecoveredOutput.getAccessibleContext().setAccessibleName("TotalRecovered_Number");
 
-        TabbedPane.addTab("National Statistics", jPanel1);
+        totalInfectedOutput.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        totalInfectedOutput.setForeground(new java.awt.Color(212, 212, 212));
+        totalInfectedOutput.setText("---");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(162, 12, 169, 0);
+        jPanel6.add(totalInfectedOutput, gridBagConstraints);
 
-        jPanel3.setBackground(java.awt.Color.white);
-        jPanel3.setLayout(new java.awt.GridBagLayout());
+        totalDeathsOutput.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        totalDeathsOutput.setForeground(new java.awt.Color(212, 212, 212));
+        totalDeathsOutput.setText("---");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(162, 6, 169, 76);
+        jPanel6.add(totalDeathsOutput, gridBagConstraints);
 
-        vaccineTitleLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        vaccineTitleLabel.setText("Vaccination Status");
+        recoveredGraph.setLayout(new java.awt.BorderLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 50, 50);
-        jPanel3.add(vaccineTitleLabel, gridBagConstraints);
+        jPanel6.add(recoveredGraph, gridBagConstraints);
 
-        LoginButton.setBackground(java.awt.Color.cyan);
+        infectionGraph.setLayout(new java.awt.BorderLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        jPanel6.add(infectionGraph, gridBagConstraints);
+
+        deathGraph.setLayout(new java.awt.BorderLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        jPanel6.add(deathGraph, gridBagConstraints);
+
+        nationalStatsPanel.add(jPanel6, java.awt.BorderLayout.CENTER);
+
+        statsTitleLabel.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        statsTitleLabel.setForeground(new java.awt.Color(212, 212, 212));
+        statsTitleLabel.setText("National Statistics");
+        statsTitleLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        statsTitleLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        nationalStatsPanel.add(statsTitleLabel, java.awt.BorderLayout.NORTH);
+
+        TabbedPane.addTab("National Statistics", nationalStatsPanel);
+
+        vaccinePanel.setBackground(java.awt.Color.darkGray);
+        vaccinePanel.setLayout(new java.awt.BorderLayout());
+
+        vaccineTitleLabel.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        vaccineTitleLabel.setForeground(new java.awt.Color(212, 212, 212));
+        vaccineTitleLabel.setText("Vaccination Status");
+        vaccineTitleLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 20, 10));
+        vaccinePanel.add(vaccineTitleLabel, java.awt.BorderLayout.NORTH);
+
+        LoginButton.setBackground(new java.awt.Color(51, 153, 255));
+        LoginButton.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        LoginButton.setForeground(new java.awt.Color(255, 255, 255));
         LoginButton.setText("Login");
         LoginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LoginButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 27;
-        gridBagConstraints.insets = new java.awt.Insets(40, 10, 10, 10);
-        jPanel3.add(LoginButton, gridBagConstraints);
+        vaccinePanel.add(LoginButton, java.awt.BorderLayout.SOUTH);
 
+        vaccineDisplayPanel.setBackground(new java.awt.Color(64, 64, 64));
+        vaccineDisplayPanel.setLayout(new java.awt.GridLayout(3, 2, 10, -100));
+
+        vaccinatedLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
+        vaccinatedLabel.setForeground(new java.awt.Color(212, 212, 212));
+        vaccinatedLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         vaccinatedLabel.setText("Vaccinated:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(vaccinatedLabel, gridBagConstraints);
+        vaccineDisplayPanel.add(vaccinatedLabel);
 
+        vaccinatedOutput.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        vaccinatedOutput.setForeground(new java.awt.Color(212, 212, 212));
         vaccinatedOutput.setText("---");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
-        jPanel3.add(vaccinatedOutput, gridBagConstraints);
+        vaccineDisplayPanel.add(vaccinatedOutput);
 
+        vaccineDateLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
+        vaccineDateLabel.setForeground(new java.awt.Color(212, 212, 212));
+        vaccineDateLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         vaccineDateLabel.setText("Date of most recent vaccination:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(vaccineDateLabel, gridBagConstraints);
+        vaccineDisplayPanel.add(vaccineDateLabel);
 
+        vaccineDateOutput.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        vaccineDateOutput.setForeground(new java.awt.Color(212, 212, 212));
         vaccineDateOutput.setText("---");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
-        jPanel3.add(vaccineDateOutput, gridBagConstraints);
+        vaccineDisplayPanel.add(vaccineDateOutput);
 
+        dosesLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
+        dosesLabel.setForeground(new java.awt.Color(212, 212, 212));
+        dosesLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         dosesLabel.setText("Doses taken:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(dosesLabel, gridBagConstraints);
+        vaccineDisplayPanel.add(dosesLabel);
 
+        dosesOutput.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        dosesOutput.setForeground(new java.awt.Color(212, 212, 212));
         dosesOutput.setText("---");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
-        jPanel3.add(dosesOutput, gridBagConstraints);
+        vaccineDisplayPanel.add(dosesOutput);
 
-        TabbedPane.addTab("Vaccination Status", jPanel3);
+        vaccinePanel.add(vaccineDisplayPanel, java.awt.BorderLayout.CENTER);
 
+        TabbedPane.addTab("Vaccination Status", null, vaccinePanel, "");
+
+        hotspotPanel.setBackground(new java.awt.Color(64, 64, 64));
+        hotspotPanel.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane2.setBackground(new java.awt.Color(64, 64, 64));
+        jScrollPane2.setForeground(new java.awt.Color(64, 64, 64));
+
+        hotspotTable.setAutoCreateRowSorter(true);
         hotspotTable.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         hotspotTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -333,35 +412,18 @@ public class PassportGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        hotspotTable.setGridColor(new java.awt.Color(64, 64, 64));
         jScrollPane2.setViewportView(hotspotTable);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        hotspotPanel.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(212, 212, 212));
         jLabel1.setText("Hotspot Information");
+        jLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 20, 10));
+        hotspotPanel.add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE)
-                .addGap(30, 30, 30))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(86, 86, 86)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
-        );
-
-        TabbedPane.addTab("Hotspot Information", jPanel2);
+        TabbedPane.addTab("Hotspot Information", hotspotPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -385,6 +447,7 @@ public class PassportGUI extends javax.swing.JFrame {
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
         // TODO add your handling code here:
+        loginDialog.setLocationRelativeTo(null);
         loginDialog.setVisible(true);
     }//GEN-LAST:event_LoginButtonActionPerformed
 
@@ -443,6 +506,10 @@ public class PassportGUI extends javax.swing.JFrame {
     public void showDoses(int doses) {
         dosesOutput.setText(String.valueOf(doses));
     }
+    
+    public void updateRecoveredGraph() {
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel DeathLabel;
@@ -452,25 +519,30 @@ public class PassportGUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane TabbedPane;
     private javax.swing.JLabel accountLabel;
     private javax.swing.JButton cancelBtn;
+    private javax.swing.JPanel deathGraph;
     private javax.swing.JLabel dosesLabel;
     private javax.swing.JLabel dosesOutput;
+    private javax.swing.JPanel hotspotPanel;
     private javax.swing.JTable hotspotTable;
+    private javax.swing.JPanel infectionGraph;
     private javax.swing.JLabel invalidLoginLabel;
     private javax.swing.JLabel invalidPasswordLabel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton loginBtn;
     private javax.swing.JDialog loginDialog;
     private javax.swing.JTextField loginField;
+    private javax.swing.JPanel nationalStatsPanel;
     private javax.swing.JPanel optionButtons;
     private javax.swing.JLabel passwdLabel;
     private javax.swing.JTextField passwordField;
+    private javax.swing.JPanel recoveredGraph;
+    private javax.swing.JLabel statsTitleLabel;
     private javax.swing.JLabel titleLabel;
+    private javax.swing.JLabel titleLabel1;
     private javax.swing.JLabel totalDeathsOutput;
     private javax.swing.JLabel totalInfectedOutput;
     private javax.swing.JLabel totalRecoveredOutput;
@@ -478,6 +550,8 @@ public class PassportGUI extends javax.swing.JFrame {
     private javax.swing.JLabel vaccinatedOutput;
     private javax.swing.JLabel vaccineDateLabel;
     private javax.swing.JLabel vaccineDateOutput;
+    private javax.swing.JPanel vaccineDisplayPanel;
+    private javax.swing.JPanel vaccinePanel;
     private javax.swing.JLabel vaccineTitleLabel;
     // End of variables declaration//GEN-END:variables
 }
