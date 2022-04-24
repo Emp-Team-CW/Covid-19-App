@@ -33,17 +33,10 @@ public class CovidAppController implements ActionListener {
 		controller.updateCovidData();
 		controller.updateHotspotData();
 
+                System.out.println(controller.covidData[0].get("date"));
 		controller.gui.setNationalStatisticsLabels((long)controller.covidData[0].get("cumCases"), (long)controller.covidData[0].get("cumDeaths"));
 		controller.gui.setVisible(true);
 
-	}
-
-	public CovidAppController() {
-		try {
-			updateCovidData();
-		} catch(IOException | InterruptedException | ParseException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public void updateCovidData() throws IOException, InterruptedException, ParseException {
@@ -71,6 +64,11 @@ public class CovidAppController implements ActionListener {
 			// add to the overall data array and increase the counter
 			covidData[counter++] = (JSONObject) iterator.next();			
 		}
+                
+                gui.updateGraphs(covidData);
+                if(covidData.length >= 1) {
+                    gui.setCurrentDate((String)covidData[0].get("date"));
+                }
 	}
 
 	private void updateHotspotData() throws IOException, InterruptedException, ParseException {

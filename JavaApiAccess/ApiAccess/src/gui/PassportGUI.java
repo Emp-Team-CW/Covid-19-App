@@ -4,8 +4,22 @@
  */
 package gui;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.xy.DefaultXYDataset;
+import org.jfree.data.xy.XYDataset;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -84,16 +98,18 @@ public class PassportGUI extends javax.swing.JFrame {
         TabbedPane = new javax.swing.JTabbedPane();
         nationalStatsPanel = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
+        recoveredPanel = new javax.swing.JPanel();
+        infectedPanel = new javax.swing.JPanel();
+        deathPanel = new javax.swing.JPanel();
         InfectionLabel = new javax.swing.JLabel();
         DeathLabel = new javax.swing.JLabel();
         RecoveredLabel = new javax.swing.JLabel();
         totalRecoveredOutput = new javax.swing.JLabel();
         totalInfectedOutput = new javax.swing.JLabel();
         totalDeathsOutput = new javax.swing.JLabel();
-        recoveredGraph = new javax.swing.JPanel();
-        infectionGraph = new javax.swing.JPanel();
-        deathGraph = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         statsTitleLabel = new javax.swing.JLabel();
+        dateLabel1 = new javax.swing.JLabel();
         vaccinePanel = new javax.swing.JPanel();
         vaccineTitleLabel = new javax.swing.JLabel();
         LoginButton = new javax.swing.JButton();
@@ -107,7 +123,9 @@ public class PassportGUI extends javax.swing.JFrame {
         hotspotPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         hotspotTable = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        dateLabel2 = new javax.swing.JLabel();
 
         loginDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         loginDialog.setTitle("Login");
@@ -236,26 +254,59 @@ public class PassportGUI extends javax.swing.JFrame {
         nationalStatsPanel.setLayout(new java.awt.BorderLayout());
 
         jPanel6.setBackground(new java.awt.Color(64, 64, 64));
-        jPanel6.setLayout(new java.awt.GridBagLayout());
+        java.awt.GridBagLayout jPanel6Layout = new java.awt.GridBagLayout();
+        jPanel6Layout.rowHeights = new int[] {200, 1};
+        jPanel6Layout.columnWeights = new double[] {2.0, 1.0, 2.0, 1.0, 2.0, 1.0};
+        jPanel6.setLayout(jPanel6Layout);
+
+        recoveredPanel.setBackground(new java.awt.Color(255, 204, 51));
+        recoveredPanel.setLayout(new java.awt.BorderLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 10, 20);
+        jPanel6.add(recoveredPanel, gridBagConstraints);
+
+        infectedPanel.setBackground(new java.awt.Color(255, 51, 51));
+        infectedPanel.setLayout(new java.awt.BorderLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 10, 20);
+        jPanel6.add(infectedPanel, gridBagConstraints);
+
+        deathPanel.setBackground(new java.awt.Color(153, 255, 0));
+        deathPanel.setLayout(new java.awt.BorderLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 10, 20);
+        jPanel6.add(deathPanel, gridBagConstraints);
 
         InfectionLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
         InfectionLabel.setForeground(new java.awt.Color(212, 212, 212));
         InfectionLabel.setText("Total Infections:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(162, 88, 169, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 30, 0, 5);
         jPanel6.add(InfectionLabel, gridBagConstraints);
 
         DeathLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
         DeathLabel.setForeground(new java.awt.Color(212, 212, 212));
-        DeathLabel.setText("Total Deaths");
+        DeathLabel.setText("Total Deaths:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(162, 55, 169, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 30, 0, 5);
         jPanel6.add(DeathLabel, gridBagConstraints);
 
         RecoveredLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
@@ -265,17 +316,17 @@ public class PassportGUI extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(162, 73, 169, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 30, 0, 5);
         jPanel6.add(RecoveredLabel, gridBagConstraints);
 
         totalRecoveredOutput.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         totalRecoveredOutput.setForeground(new java.awt.Color(212, 212, 212));
         totalRecoveredOutput.setText("---");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(162, 6, 169, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 0, 30);
         jPanel6.add(totalRecoveredOutput, gridBagConstraints);
         totalRecoveredOutput.getAccessibleContext().setAccessibleName("TotalRecovered_Number");
 
@@ -283,48 +334,40 @@ public class PassportGUI extends javax.swing.JFrame {
         totalInfectedOutput.setForeground(new java.awt.Color(212, 212, 212));
         totalInfectedOutput.setText("---");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(162, 12, 169, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 0, 30);
         jPanel6.add(totalInfectedOutput, gridBagConstraints);
 
         totalDeathsOutput.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         totalDeathsOutput.setForeground(new java.awt.Color(212, 212, 212));
         totalDeathsOutput.setText("---");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(162, 6, 169, 76);
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 0, 30);
         jPanel6.add(totalDeathsOutput, gridBagConstraints);
-
-        recoveredGraph.setLayout(new java.awt.BorderLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        jPanel6.add(recoveredGraph, gridBagConstraints);
-
-        infectionGraph.setLayout(new java.awt.BorderLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        jPanel6.add(infectionGraph, gridBagConstraints);
-
-        deathGraph.setLayout(new java.awt.BorderLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        jPanel6.add(deathGraph, gridBagConstraints);
 
         nationalStatsPanel.add(jPanel6, java.awt.BorderLayout.CENTER);
 
+        jPanel1.setBackground(new java.awt.Color(64, 64, 64));
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
         statsTitleLabel.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         statsTitleLabel.setForeground(new java.awt.Color(212, 212, 212));
-        statsTitleLabel.setText("National Statistics");
+        statsTitleLabel.setText("National Statistics -");
         statsTitleLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         statsTitleLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        nationalStatsPanel.add(statsTitleLabel, java.awt.BorderLayout.NORTH);
+        jPanel1.add(statsTitleLabel);
+
+        dateLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        dateLabel1.setForeground(new java.awt.Color(212, 212, 212));
+        dateLabel1.setText("jLabel2");
+        jPanel1.add(dateLabel1);
+
+        nationalStatsPanel.add(jPanel1, java.awt.BorderLayout.NORTH);
 
         TabbedPane.addTab("National Statistics", nationalStatsPanel);
 
@@ -417,11 +460,21 @@ public class PassportGUI extends javax.swing.JFrame {
 
         hotspotPanel.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
+        jPanel2.setBackground(new java.awt.Color(64, 64, 64));
+        jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(212, 212, 212));
-        jLabel1.setText("Hotspot Information");
+        jLabel1.setText("Hotspot Information -");
         jLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 20, 10));
-        hotspotPanel.add(jLabel1, java.awt.BorderLayout.PAGE_START);
+        jPanel2.add(jLabel1);
+
+        dateLabel2.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        dateLabel2.setForeground(new java.awt.Color(212, 212, 212));
+        dateLabel2.setText("jLabel3");
+        jPanel2.add(dateLabel2);
+
+        hotspotPanel.add(jPanel2, java.awt.BorderLayout.NORTH);
 
         TabbedPane.addTab("Hotspot Information", hotspotPanel);
 
@@ -507,8 +560,55 @@ public class PassportGUI extends javax.swing.JFrame {
         dosesOutput.setText(String.valueOf(doses));
     }
     
-    public void updateRecoveredGraph() {
+    public void updateGraphs(JSONObject[] covidData) {
+        TimeSeries recoveredData = new TimeSeries("Recovered");
+        TimeSeries infectedData = new TimeSeries("Infected");
+        TimeSeries deathData = new TimeSeries("Deaths");
         
+        long cumCases, cumDeaths, infections, deaths;
+
+        for(int i = covidData.length - 1; i >= 0; i--) {
+            Day day = new Day(Integer.parseInt(((String)((JSONObject)covidData[i]).get("date")).substring(((String)((JSONObject)covidData[i]).get("date")).indexOf('-', ((String)((JSONObject)covidData[i]).get("date")).indexOf('-') + 1) + 1)),
+                    Integer.parseInt(((String)((JSONObject)covidData[i]).get("date")).substring(((String)((JSONObject)covidData[i]).get("date")).indexOf('-') + 1, ((String)((JSONObject)covidData[i]).get("date")).indexOf('-', ((String)((JSONObject)covidData[i]).get("date")).indexOf('-') + 1))),
+                    Integer.parseInt(((String)((JSONObject)covidData[i]).get("date")).substring(0, ((String)((JSONObject)covidData[i]).get("date")).indexOf('-')))
+            );
+            
+            cumCases = covidData[i].get("cumCases") != null ? (long) covidData[i].get("cumCases") : 0;
+            cumDeaths = covidData[i].get("cumDeaths") != null ? (long) covidData[i].get("cumDeaths") : 0;
+            infections = covidData[i].get("dailyCases") != null ? (long) covidData[i].get("dailyCases") : 0;
+            deaths = covidData[i].get("dailyDeaths") != null ? (long) covidData[i].get("dailyDeaths") : 0;
+            
+            recoveredData.add(day, cumCases - cumDeaths);
+            infectedData.add(day, infections);
+            deathData.add(day, deaths);
+            
+        }
+        
+        TimeSeriesCollection recoveredDataset = new TimeSeriesCollection(recoveredData);
+        TimeSeriesCollection infectedDataset = new TimeSeriesCollection(infectedData);
+        TimeSeriesCollection deathDataset = new TimeSeriesCollection(deathData);        
+        
+        JFreeChart recoveredChart = ChartFactory.createTimeSeriesChart("Total Recovered Over Time", "", "", recoveredDataset);
+        JFreeChart infectedChart = ChartFactory.createTimeSeriesChart("Current Infections", "", "", infectedDataset);
+        JFreeChart deathChart = ChartFactory.createTimeSeriesChart("Daily Deaths", "", "", deathDataset);
+        
+        recoveredChart.removeLegend();
+        infectedChart.removeLegend();
+        deathChart.removeLegend();
+                
+        ChartPanel recoveredChartPanel = new ChartPanel(recoveredChart);
+        ChartPanel infectedChartPanel = new ChartPanel(infectedChart);
+        ChartPanel deathChartPanel = new ChartPanel(deathChart);
+
+        recoveredPanel.add(recoveredChartPanel);
+        infectedPanel.add(infectedChartPanel);
+        deathPanel.add(deathChartPanel);
+        
+    }
+    
+    public void setCurrentDate(String date) {
+        dateLabel1.setText(date);
+        dateLabel2.setText(date);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -519,15 +619,19 @@ public class PassportGUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane TabbedPane;
     private javax.swing.JLabel accountLabel;
     private javax.swing.JButton cancelBtn;
-    private javax.swing.JPanel deathGraph;
+    private javax.swing.JLabel dateLabel1;
+    private javax.swing.JLabel dateLabel2;
+    private javax.swing.JPanel deathPanel;
     private javax.swing.JLabel dosesLabel;
     private javax.swing.JLabel dosesOutput;
     private javax.swing.JPanel hotspotPanel;
     private javax.swing.JTable hotspotTable;
-    private javax.swing.JPanel infectionGraph;
+    private javax.swing.JPanel infectedPanel;
     private javax.swing.JLabel invalidLoginLabel;
     private javax.swing.JLabel invalidPasswordLabel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -539,7 +643,7 @@ public class PassportGUI extends javax.swing.JFrame {
     private javax.swing.JPanel optionButtons;
     private javax.swing.JLabel passwdLabel;
     private javax.swing.JTextField passwordField;
-    private javax.swing.JPanel recoveredGraph;
+    private javax.swing.JPanel recoveredPanel;
     private javax.swing.JLabel statsTitleLabel;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JLabel titleLabel1;
