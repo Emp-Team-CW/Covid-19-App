@@ -1,5 +1,10 @@
 package api;
 
+/**
+ * Each hotspot accessed by the api for hotspot data
+ * 
+ * @author Jack
+ */
 public enum Hotspot {
 
 	MANCHESTER,
@@ -53,6 +58,9 @@ public enum Hotspot {
 		}
 	}
 	
+        /**
+         * @return the area code corresponding to each hotspot location
+         */
 	public String areaCode() {
 		switch(this) {
 		case MANCHESTER:
