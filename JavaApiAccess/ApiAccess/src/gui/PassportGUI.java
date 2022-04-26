@@ -568,6 +568,7 @@ public class PassportGUI extends javax.swing.JFrame {
      */
     public void hideInvalidLoginLabel() {
         invalidLoginLabel.setVisible(false);
+        loginDialog.pack();
     }
     
     /**
@@ -575,6 +576,7 @@ public class PassportGUI extends javax.swing.JFrame {
      */
     public void hideInvalidPasswordLabel() {
         invalidPasswordLabel.setVisible(false);
+        loginDialog.pack();
     }
     
     /**
@@ -582,6 +584,7 @@ public class PassportGUI extends javax.swing.JFrame {
      */
     public void displayInvalidLoginLabel() {
         invalidLoginLabel.setVisible(true);
+        loginDialog.pack();
     }
     
     /**
@@ -589,6 +592,7 @@ public class PassportGUI extends javax.swing.JFrame {
      */
     public void displayInvalidPasswordLabel() {
         invalidPasswordLabel.setVisible(true);
+        loginDialog.pack();
     }
     
     /**
