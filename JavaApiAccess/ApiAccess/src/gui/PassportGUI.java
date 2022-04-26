@@ -1,42 +1,41 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package gui;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
-import org.jfree.data.xy.DefaultXYDataset;
-import org.jfree.data.xy.XYDataset;
 import org.json.simple.JSONObject;
 
 /**
- *
+ * GUI to be used by the COVID-19 app to display its output
+ * 
  * @author Chris
  */
 public class PassportGUI extends javax.swing.JFrame {
 	
 	private ActionListener controller;
+        
+        private TableRowSorter<TableModel> rowSorter;
 
     /**
      * Creates new form PassportGUI
+     * 
+     * @param actionListener an action listener to handle interaction with the GUI
      */
     public PassportGUI(ActionListener actionListener) {
-    	/* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+    	/* Set the Nimbus look and feel
+         * If Nimbus (introduced in Java SE 6) is not available,
+         * stay with the default look and feel.
          */    	
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -45,30 +44,56 @@ public class PassportGUI extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PassportGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PassportGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PassportGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(PassportGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        this.controller = actionListener;
+        
+        this.controller = actionListener; // link the action listener
         initComponents();
+        /*
+         * Create an object to sort the hotspot rows based on current cases
+         * and then alphabetically based on location name.
+         *
+         * This code was adapted from code found at the following resource:
+         * 
+         * Oracle, 2022. How to Use Tables [online].
+         * Available at: https://docs.oracle.com/javase/tutorial/uiswing/components/table.html#sorting
+         * [Accessed 26/04/22].
+         *
+         * The code was not copied verbatim, it has been adapted to suit the
+         * needs of this project
+         */
+        rowSorter = new TableRowSorter<TableModel>(hotspotTable.getModel());
+        List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+        sortKeys.add(new RowSorter.SortKey(1, SortOrder.DESCENDING));
+        sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+        rowSorter.setSortKeys(sortKeys);
+        hotspotTable.setRowSorter(rowSorter);
+        
+        // hide warnings before they are needed
         hideInvalidLoginLabel();
         hideInvalidPasswordLabel();
+        
+        // label the frame and center it in the screen
         setTitle("Covid-19 Data");
         setLocationRelativeTo(null);
     }
 
-    public void addHotspotRow(String place, long curCases, long totalCases, long totalDeaths, long totalRecovered,long totalVaccinations){
+    /**
+     * Adds a new row to the Hotspot table
+     * 
+     * @param place name of the hotspot
+     * @param curCases the current cases in the hotspot location
+     * @param totalCases the total cases since the start of the pandemic in this hotspot
+     * @param totalDeaths the total deaths since the start of the pandemic in this hotspot
+     * @param totalRecovered the total recoveries since the start of the pandemic in this hotspot
+     */
+    public void addHotspotRow(String place, long curCases, long totalCases, long totalDeaths, long totalRecovered){
 
-        Object[] row = {place,curCases,totalCases,totalDeaths,totalRecovered,totalVaccinations};
+        // create a row
+        Object[] row = {place,curCases,totalCases,totalDeaths,totalRecovered};
 
-        DefaultTableModel model = (DefaultTableModel) hotspotTable.getModel();
-
-        model.addRow(row);
+        ((DefaultTableModel)hotspotTable.getModel()).addRow(row);
     }
     
     /**
@@ -243,6 +268,7 @@ public class PassportGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(64, 64, 64));
+        setPreferredSize(new java.awt.Dimension(1000, 700));
         setResizable(false);
 
         TabbedPane.setBackground(java.awt.Color.darkGray);
@@ -255,7 +281,7 @@ public class PassportGUI extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(64, 64, 64));
         java.awt.GridBagLayout jPanel6Layout = new java.awt.GridBagLayout();
-        jPanel6Layout.rowHeights = new int[] {200, 1};
+        jPanel6Layout.rowHeights = new int[] {300, 1};
         jPanel6Layout.columnWeights = new double[] {2.0, 1.0, 2.0, 1.0, 2.0, 1.0};
         jPanel6.setLayout(jPanel6Layout);
 
@@ -444,18 +470,27 @@ public class PassportGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Place", "Current Cases", "Total Cases", "Total Deaths", "Total Recovered", "Density", "Total Vaccinations"
+                "Place", "Current Cases", "Total Cases", "Total Deaths", "Total Recovered"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Long.class, java.lang.Long.class, java.lang.Long.class, java.lang.Long.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         hotspotTable.setGridColor(new java.awt.Color(64, 64, 64));
+        hotspotTable.setRowHeight(30);
+        hotspotTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(hotspotTable);
 
         hotspotPanel.add(jScrollPane2, java.awt.BorderLayout.CENTER);
@@ -478,72 +513,95 @@ public class PassportGUI extends javax.swing.JFrame {
 
         TabbedPane.addTab("Hotspot Information", hotspotPanel);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(TabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 824, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(TabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        getContentPane().add(TabbedPane, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Called when the login button is pressed on the vaccine info panel
+     * @param evt 
+     */
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
-        // TODO add your handling code here:
+        // show the login dialog in the centre of the screen
         loginDialog.setLocationRelativeTo(null);
         loginDialog.setVisible(true);
     }//GEN-LAST:event_LoginButtonActionPerformed
 
-    
+    /**
+     * Called when the user cancel a login
+     * @param evt 
+     */
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-        // TODO add your handling code here:
+        // close the login dialog
         loginDialog.dispose();
     }//GEN-LAST:event_cancelBtnActionPerformed
     
+    /**
+     * Updates the figures on the national statistics panel
+     * @param totalInfected the total infections in the nation
+     * @param totalDeaths the total deaths in the nation
+     */
     public void setNationalStatisticsLabels(long totalInfected, long totalDeaths) {
+        // update each label to the correct value
     	totalInfectedOutput.setText(String.valueOf(totalInfected));
     	totalDeathsOutput.setText(String.valueOf(totalDeaths));
     	totalRecoveredOutput.setText(String.valueOf(totalInfected - totalDeaths));
     }
     
+    /**
+     * @return the NHS number entered by the user
+     */
     public String getEnteredLoginNumber() {
         return loginField.getText();
     }
     
+    /**
+     * @return the NHS password entered by the user
+     */
     public String getEnteredLoginPassword() {
         return passwordField.getText();
     }
     
+    /**
+     * Hides the invalid login detail warning
+     */
     public void hideInvalidLoginLabel() {
         invalidLoginLabel.setVisible(false);
     }
     
+    /**
+     * Hides the invalid password warning
+     */
     public void hideInvalidPasswordLabel() {
         invalidPasswordLabel.setVisible(false);
     }
     
+    /**
+     * Shows the invalid login detail warning
+     */
     public void displayInvalidLoginLabel() {
         invalidLoginLabel.setVisible(true);
     }
-     
+    
+    /**
+     * Shows the invalid password warning
+     */
     public void displayInvalidPasswordLabel() {
         invalidPasswordLabel.setVisible(true);
     }
     
+    /**
+     * Closes the login dialog
+     */
     public void closeLoginDialog() {
         loginDialog.dispose();
     }
     
+    /**
+     * Updates the vaccine status label
+     * @param vaccinated true if the user is vaccinated, false otherwise
+     */
     public void showVaccinated(boolean vaccinated) {
         if(vaccinated) {
             vaccinatedOutput.setText("Yes");
@@ -552,60 +610,91 @@ public class PassportGUI extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Updates the most recent vaccination date label
+     * @param date a String of the date of the most recent vaccination
+     */
     public void showVaccineDate(String date) {
         vaccineDateOutput.setText(date);
     }
     
+    /**
+     * Updates the vaccine doses taken label
+     * @param doses the number of doses taken by the user
+     */
     public void showDoses(int doses) {
         dosesOutput.setText(String.valueOf(doses));
     }
     
+    /**
+     * Updates and displays the national statistics graphs
+     * @param covidData all retrieved COVID-19 data for the nation
+     */
     public void updateGraphs(JSONObject[] covidData) {
+        // create a timeseries for each graph
         TimeSeries recoveredData = new TimeSeries("Recovered");
         TimeSeries infectedData = new TimeSeries("Infected");
         TimeSeries deathData = new TimeSeries("Deaths");
         
-        long cumCases, cumDeaths, infections, deaths;
+        long cumCases, cumDeaths, infections, deaths; // used in the loop below
 
+        // loop each record from the API
         for(int i = covidData.length - 1; i >= 0; i--) {
+            // create a Day of the records date
             Day day = new Day(Integer.parseInt(((String)((JSONObject)covidData[i]).get("date")).substring(((String)((JSONObject)covidData[i]).get("date")).indexOf('-', ((String)((JSONObject)covidData[i]).get("date")).indexOf('-') + 1) + 1)),
                     Integer.parseInt(((String)((JSONObject)covidData[i]).get("date")).substring(((String)((JSONObject)covidData[i]).get("date")).indexOf('-') + 1, ((String)((JSONObject)covidData[i]).get("date")).indexOf('-', ((String)((JSONObject)covidData[i]).get("date")).indexOf('-') + 1))),
                     Integer.parseInt(((String)((JSONObject)covidData[i]).get("date")).substring(0, ((String)((JSONObject)covidData[i]).get("date")).indexOf('-')))
             );
             
+            // hold the relevant data; if non -> set to 0
             cumCases = covidData[i].get("cumCases") != null ? (long) covidData[i].get("cumCases") : 0;
             cumDeaths = covidData[i].get("cumDeaths") != null ? (long) covidData[i].get("cumDeaths") : 0;
             infections = covidData[i].get("dailyCases") != null ? (long) covidData[i].get("dailyCases") : 0;
             deaths = covidData[i].get("dailyDeaths") != null ? (long) covidData[i].get("dailyDeaths") : 0;
             
+            // add data to the timeseries
             recoveredData.add(day, cumCases - cumDeaths);
             infectedData.add(day, infections);
             deathData.add(day, deaths);
             
         }
         
+        // create a collection for each graph
         TimeSeriesCollection recoveredDataset = new TimeSeriesCollection(recoveredData);
         TimeSeriesCollection infectedDataset = new TimeSeriesCollection(infectedData);
         TimeSeriesCollection deathDataset = new TimeSeriesCollection(deathData);        
         
+        // create the graphs
         JFreeChart recoveredChart = ChartFactory.createTimeSeriesChart("Total Recovered Over Time", "", "", recoveredDataset);
         JFreeChart infectedChart = ChartFactory.createTimeSeriesChart("Current Infections", "", "", infectedDataset);
         JFreeChart deathChart = ChartFactory.createTimeSeriesChart("Daily Deaths", "", "", deathDataset);
         
+        // hide the legend, as there is only one plot per graph
         recoveredChart.removeLegend();
         infectedChart.removeLegend();
         deathChart.removeLegend();
-                
+        
+        // create a panel for each graph
         ChartPanel recoveredChartPanel = new ChartPanel(recoveredChart);
         ChartPanel infectedChartPanel = new ChartPanel(infectedChart);
         ChartPanel deathChartPanel = new ChartPanel(deathChart);
 
+        // add the graph panels to the GUI
+        // clear
+        recoveredPanel.removeAll();
+        infectedPanel.removeAll();
+        deathPanel.removeAll();
+        // add new
         recoveredPanel.add(recoveredChartPanel);
         infectedPanel.add(infectedChartPanel);
         deathPanel.add(deathChartPanel);
         
     }
     
+    /**
+     * Displays the date the data was last updated in the API
+     * @param date a string of the date the API was last updated
+     */
     public void setCurrentDate(String date) {
         dateLabel1.setText(date);
         dateLabel2.setText(date);
