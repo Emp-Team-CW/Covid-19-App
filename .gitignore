@@ -142,3 +142,4 @@ dmypy.json
 .project
 .gitignore
 /JavaApiAccess/ApiAccess/nbproject/private/
+/Covid19 Passport App/ApiAccess/nbproject/private/
